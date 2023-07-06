@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <th:block th:replace="fragments :: head(title='Photo Details')"></th:block>
+</head>
+
+<body>
+<th:block th:replace="fragments :: navbar"></th:block>
+
+<div class="container mt-5" th:object="${photo}">
+    <section>
+        <h1 th:text="*{title}"></h1>
+        <img class="my-3" style="width: 400px;" th:src="*{url}">
+        <dt> Description</dt>
+        <dd th:text="*{description}"></dd>
+
+        <dt>Categories</dt>
+        <ul th:if="*{categories.size() > 0}">
+            <li th:each="cat : *{categories}" th:text="${cat.name}"></li>
+        </ul>
+        <div class="alert alert-info mt-3" th:unless="*{categories.size() > 0}">This photo doesn' t have any category
+        </div>
+    </section>
+</div>
+</body>
+</html>

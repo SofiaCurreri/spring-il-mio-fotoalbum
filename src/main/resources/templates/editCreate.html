@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <th:block th:replace="fragments :: head(title='Edit Photo')"></th:block>
+</head>
+
+<body th:with="isEdit=${photo.id != null}">
+<th:block th:replace="fragments :: navbar"></th:block>
+<div class="container mt-5">
+    <h1 th:text="${isEdit ? 'Edit photo ' + photo.title : 'Upload a new photo'}"></h1>
+
+    <form
+            class="row mt-5"
+            id="photo-form"
+            method="post"
+            th:action="@{${formAction}}"
+            th:object="${photo}"
+            th:with="formAction=${isEdit ? '/photos/edit/' + photo.id : '/photos/create'}"
+    >
+
+        <div class="col-6 my-2">
+            <label class="form-label" for="photo-title">Title*</label>
+            <input class="form-control" id="photo-title" th:errorClass="is-invalid" th:field="*{title}" type="text">
+            <div class="form-text">Must not be empty</div>
+            <div class="invalid-feedback" th:if="${#fields.hasErrors('title')}">
+                <ul>
+                    <li th:each="err : ${#fields.errors('title')}" th:text="${err}"></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="col-6 my-2">
+            <label class="form-label">Visibility*</label>
+            <select class="form-select" th:field="*{visible}">
+                <option selected value="1">Yes</option>
+                <option value="0">No</option>
+            </select>
+        </div>
+
+        <div class="col-12 my-2">
+            <label class="form-label" for="url-photo">Url Image*</label>
+            <input class="form-control" id="url-photo" th:errorClass="is-invalid" th:field="*{url}" type="text">
+            <div class="form-text">Must not be empty</div>
+            <div class="invalid-feedback" th:if="${#fields.hasErrors('url')}">
+                <ul>
+                    <li th:each="err : ${#fields.errors('url')}" th:text="${err}"></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="col-6 my-2">
+            <label class="form-label" for="description">Description</label>
+            <textarea class="form-control" id="description" rows="10" th:field="*{description}"></textarea>
+        </div>
+
+        <div class="col-6 my-2 ">
+            <label class="form-label">Categories</label>
+            <div class="form-check" th:each="cat : ${categoryList}">
+                <input class="form-check-input" th:field="*{categories}" th:id="|cat_${cat.id}|" th:value="${cat.id}"
+                       type="checkbox">
+                <label class="form-check-label" th:for="|cat_${cat.id}|" th:text="${cat.name}"></label>
+            </div>
+        </div>
+
+        <div class="col-12 my-4">
+            <button class="btn btn-success" type="submit">Save</button>
+            <a class="btn btn-secondary mx-1" th:href="@{/photos}">Cancel</a>
+        </div>
+    </form>
+</div>
+
+</body>
+</html>
