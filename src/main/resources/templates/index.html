@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <th:block th:replace="fragments :: head(title='Photo Album')"></th:block>
+</head>
+
+<body>
+<th:block th:replace="fragments :: navbar"></th:block>
+
+<div class="container mt-5">
+    <!--    <div class="alert alert-danger w-100" role="alert" th:if="${message != null}" th:text="${message}"></div>-->
+
+    <h2 class="my-5 text-center"> Album </h2>
+
+    <!--button + search bar-->
+    <div class="w-100 mt-5 d-flex justify-content-between">
+        <div>
+            <a class="btn btn-success" th:href="@{/}">Upload Photo</a>
+        </div>
+
+        <div>
+            <form class="d-flex" method="GET" th:action="@{/photos}">
+                <input class="form-control me-2" name="keyword" placeholder="Search by title" th:value="${searchInput}"
+                       type="search">
+                <button class="btn btn-outline-success" type="submit"><i class="fa-solid fa-magnifying-glass"></i>
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!--Photos-->
+    <div class="row my-3">
+        <div class="col g-3 d-flex justify-content-center" th:each="photo : ${listPhotos}">
+            <img style="width:300px;" th:alt="${photo.description}" th:src="${photo.url}">
+        </div>
+    </div>
+
+    <!--se lista vuota mostro messaggio-->
+    <div class="alert alert-info w-100 mt-2" th:unless="${listPhotos.size() > 0}">
+        <h4 th:text="${message}"></h4>
+    </div>
+
+
+</div>
+</body>
+</html>

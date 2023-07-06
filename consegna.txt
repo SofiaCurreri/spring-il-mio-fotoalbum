@@ -21,6 +21,7 @@ Prevedere sempre nell’homepage pubblica un semplice form di contatto avente i 
 Il click sul tasto invia farà partire una richiesta a una nuova api che salverà sul database il messaggio inviato.
 L’area di amministrazione va realizzata sfruttando Thymeleaf + controller MVC. La pagina pubblica e l’invio dei messaggi
  di contatto devono essere gestiti tramite javascript + webapi.
+
 Bonus
 La webapp originariamente progettata per un fotografo che vuole mostrare le sue foto, è stata evoluta in una piattaforma
 multiutente che consente a diversi utenti, come altri fotografi, di utilizzarla per condividere le loro foto.
