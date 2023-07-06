@@ -18,6 +18,7 @@ public class Photo {
     private String description;
     @Column(nullable = false)
     private String url;
+    @Column(nullable = false, columnDefinition = "BOOLEAN DEFAULT true")
     private Boolean visible;
     @ManyToMany
     @JoinTable(name = "photo_category", joinColumns = @JoinColumn(name = "photo_id"), inverseJoinColumns = @JoinColumn(name = "category_id"))
