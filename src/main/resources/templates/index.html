@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:sec="http://www.w3.org/1999/xhtml" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <th:block th:replace="fragments :: head(title='Photo Album')"></th:block>
 </head>
@@ -15,7 +15,9 @@
     <!--button + search bar-->
     <div class="w-100 mt-5 d-flex justify-content-between">
         <div>
-            <a class="btn btn-success" th:href="@{/photos/create}">Upload Photo</a>
+            <a class="btn btn-success" sec:authorize="hasAuthority('ADMIN')" th:href="@{/photos/create}">
+                Upload Photo
+            </a>
         </div>
 
         <div>
@@ -35,9 +37,11 @@
 
             <div class="icon d-flex align-items-center">
                 <a th:href="@{|/photos/${photo.id}|}"><i class="fa-solid fa-eye me-1"></i></a>
-                <a th:href="@{|/photos/edit/${photo.id}|}"><i class="fa-solid fa-pen-to-square mx-1"></i></a>
+                <a sec:authorize="hasAuthority('ADMIN')" th:href="@{|/photos/edit/${photo.id}|}"><i
+                        class="fa-solid fa-pen-to-square mx-1"></i></a>
                 <form
                         method="post"
+                        sec:authorize="hasAuthority('ADMIN')"
                         th:action="@{|/photos/delete/${photo.id}|}"
                 >
                     <button class="btn text-dark" type="submit"><i class="fa-solid fa-trash-can"></i></button>

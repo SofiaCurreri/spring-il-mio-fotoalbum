@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:sec="http://www.w3.org/1999/xhtml" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <th:block th:fragment="head(title)">
         <meta charset="UTF-8">
@@ -31,7 +31,7 @@
                 <a aria-current="page" class="nav-link active" th:href="@{/photos}">Home</a>
             </button>
 
-            <button class="btn btn-outline-light">
+            <button class="btn btn-outline-light" sec:authorize="hasAuthority('ADMIN')">
                 <a class="nav-link active" th:href="@{/categories}">Categories</a>
             </button>
         </div>
