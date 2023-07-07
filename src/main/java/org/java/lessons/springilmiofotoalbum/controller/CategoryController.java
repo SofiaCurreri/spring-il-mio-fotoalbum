@@ -51,7 +51,7 @@ public class CategoryController {
     @PostMapping("/save")
     public String save(@Valid @ModelAttribute("categoryObj") Category formCategory, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
-            model.addAttribute("categories", categoryRepository.findAll());
+            model.addAttribute("categoryList", categoryRepository.findAll());
             return "indexCategories";
         }
         categoryRepository.save(formCategory);
