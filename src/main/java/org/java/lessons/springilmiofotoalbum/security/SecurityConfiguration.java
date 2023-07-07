@@ -59,10 +59,13 @@ public class SecurityConfiguration {
                 .requestMatchers("/photos/delete/**").hasAuthority("ADMIN")
                 .requestMatchers("/photos/**").hasAnyAuthority("ADMIN", "USER")
                 //per dire che tutte le PostMapping sono solo x admin
-                .requestMatchers(HttpMethod.POST).hasAuthority("ADMIN")
+                .requestMatchers(HttpMethod.POST, "/photos/**").hasAuthority("ADMIN")
                 .requestMatchers("/**").permitAll()
                 .and().formLogin()
                 .and().logout();
+
+        //disabilitiamo csrf per invocare api da Postman
+        http.csrf().disable();
         return http.build();
     }
 }
