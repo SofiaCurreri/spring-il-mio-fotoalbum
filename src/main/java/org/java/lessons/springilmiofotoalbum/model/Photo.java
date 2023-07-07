@@ -1,6 +1,7 @@
 package org.java.lessons.springilmiofotoalbum.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -13,9 +14,11 @@ public class Photo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+    @NotBlank(message = "Title must not be blank")
     @Column(nullable = false)
     private String title;
     private String description;
+    @NotBlank(message = "Url must not be blank")
     @Column(nullable = false)
     private String url;
     @Column(nullable = false, columnDefinition = "BOOLEAN DEFAULT true")

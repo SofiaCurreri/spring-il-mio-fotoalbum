@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <th:block th:replace="fragments :: head(title='Categories')"></th:block>
+</head>
+
+<body>
+<th:block th:replace="fragments :: navbar"></th:block>
+
+<div class="container mt-5">
+    <h2 class="my-5 text-center"> Photo Categories </h2>
+
+
+    <div class="row mt-5 justify-content-between">
+        <!--Lista categories-->
+        <div class="col-6 mt-2" th:if="${categoryList.size > 0}">
+            <ul class="list-group">
+                <li class="list-group-item d-flex justify-content-between align-items-center "
+                    th:each="cat : ${categoryList}" th:object="${cat}">
+                    <div><h4 th:text="*{name}"></h4></div>
+
+                    <div class="d-flex align-items-center">
+                        <a th:href="@{/categories(edit=*{id})}"><i
+                                class="fa-solid fa-pen-to-square"></i></a>
+                        <form
+                                method="post"
+                                th:action="@{|/categories/delete/*{id}|}"
+                        >
+                            <button class="btn text-danger" type="submit"><i class="fa-solid fa-trash-can"></i></button>
+                        </form>
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <!--Form creazione/edit categories-->
+        <div class="col-5" th:if="${categoryList.size > 0}">
+            <form
+                    id="category-form"
+                    method="post"
+                    th:action="@{/categories/save}"
+                    th:object="${categoryObj}">
+
+                <input th:field="*{id}" type="hidden">
+                <div class="my-2">
+                    <label class="form-label" for="category-name">Name*</label>
+                    <input class="form-control" id="category-name" th:errorClass="is-invalid" th:field="*{name}"
+                           type="text">
+                    <div class="form-text">Must not be empty</div>
+                    <div class="invalid-feedback" th:if="${#fields.hasErrors('name')}">
+                        <ul>
+                            <li th:each="err : ${#fields.errors('name')}" th:text="${err}"></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="col-12 my-4">
+                    <button class="btn btn-success" type="submit">Save</button>
+                    <button class="btn btn-secondary" type="reset">Reset</button>
+                </div>
+            </form>
+        </div>
+
+        <div class="alert alert-info mt-5" th:unless="${categoryList.size > 0}">
+            <h4>There are no categories, sorry <i class="fa-regular fa-face-frown"></i></h4>
+        </div>
+    </div>
+</div>
+</body>
+</html>

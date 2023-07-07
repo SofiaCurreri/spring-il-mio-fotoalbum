@@ -14,6 +14,9 @@
         <!--Font Awesome-->
         <link th:href="@{/webjars/font-awesome/6.4.0/css/all.min.css}" th:rel="stylesheet">
 
+        <!--File Css-->
+        <link rel="stylesheet" th:href="@{/css/style.css}"/>
+
         <title th:text="${title}"></title>
     </th:block>
 </head>
@@ -29,7 +32,7 @@
             </button>
 
             <button class="btn btn-outline-light">
-                <a class="nav-link active" href="#">Categories</a>
+                <a class="nav-link active" th:href="@{/categories}">Categories</a>
             </button>
         </div>
 

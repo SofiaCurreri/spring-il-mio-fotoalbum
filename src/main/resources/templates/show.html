@@ -20,6 +20,9 @@
         </ul>
         <div class="alert alert-info mt-3" th:unless="*{categories.size() > 0}">This photo doesn' t have any category
         </div>
+
+        <a class="btn btn-success mt-5" th:href="@{/photos}">Back to Album</a>
+
     </section>
 </div>
 </body>

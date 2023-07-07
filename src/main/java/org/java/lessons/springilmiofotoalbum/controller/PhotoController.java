@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 import java.util.Optional;
@@ -83,6 +84,7 @@ public class PhotoController {
         return "redirect:/photos";
     }
 
+    //controller per fare l' edit dell' immagine
     @GetMapping("/edit/{id}")
     public String edit(@PathVariable Integer id, Model model) {
         //verificare se esiste foto con quell' id
@@ -115,6 +117,19 @@ public class PhotoController {
 
         formPhoto.setId(photoToEdit.getId());
         photoRepository.save(formPhoto);
+        return "redirect:/photos";
+    }
+
+    //controller per eliminare foto
+    @PostMapping("/delete/{id}")
+    public String delete(@PathVariable Integer id, RedirectAttributes redirectAttributes) {
+        Optional<Photo> result = photoRepository.findById(id);
+        if (result.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Photo with id = " + id + " not found:(");
+        }
+        Photo photoToDelete = result.get();
+        photoRepository.delete(photoToDelete);
+        redirectAttributes.addFlashAttribute("message", "Photo " + photoToDelete.getTitle() + " deleted!");
         return "redirect:/photos";
     }
 

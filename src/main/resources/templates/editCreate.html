@@ -6,6 +6,7 @@
 
 <body th:with="isEdit=${photo.id != null}">
 <th:block th:replace="fragments :: navbar"></th:block>
+
 <div class="container mt-5">
     <h1 th:text="${isEdit ? 'Edit photo ' + photo.title : 'Upload a new photo'}"></h1>
 

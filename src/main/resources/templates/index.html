@@ -30,8 +30,19 @@
 
     <!--Photos-->
     <div class="row my-3">
-        <div class="col g-3 d-flex justify-content-center" th:each="photo : ${listPhotos}">
+        <div class="col g-3 d-flex justify-content-center hover-icons" th:each="photo : ${listPhotos}">
             <img style="width:300px;" th:alt="${photo.description}" th:src="${photo.url}">
+
+            <div class="icon d-flex align-items-center">
+                <a th:href="@{|/photos/${photo.id}|}"><i class="fa-solid fa-eye me-1"></i></a>
+                <a th:href="@{|/photos/edit/${photo.id}|}"><i class="fa-solid fa-pen-to-square mx-1"></i></a>
+                <form
+                        method="post"
+                        th:action="@{|/photos/delete/${photo.id}|}"
+                >
+                    <button class="btn text-dark" type="submit"><i class="fa-solid fa-trash-can"></i></button>
+                </form>
+            </div>
         </div>
     </div>
 
