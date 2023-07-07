@@ -30,6 +30,7 @@ public class PhotoController {
     @GetMapping
     public String list(@RequestParam(name = "keyword", required = false) String searchString, Model model) {
         List<Photo> listPhotos;
+        List<Photo> listPhotosVisible = photoRepository.findAll();
         if (searchString == null || searchString.isBlank()) {
             listPhotos = photoRepository.findAll();
         } else {
@@ -39,8 +40,14 @@ public class PhotoController {
         if (listPhotos.isEmpty()) {
             model.addAttribute("message", "No photos available, sorry");
         }
+        for (Photo photo : listPhotos) {
+            if (!photo.getVisible()) {
+                listPhotosVisible.remove(photo);
+            }
+        }
 
         model.addAttribute("listPhotos", listPhotos);
+        model.addAttribute("listPhotosVisible", listPhotosVisible);
         model.addAttribute("searchInput", searchString == null ? "" : searchString);
         return "index";
     }
