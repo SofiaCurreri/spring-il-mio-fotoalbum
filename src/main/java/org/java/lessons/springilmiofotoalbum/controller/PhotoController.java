@@ -4,8 +4,12 @@ import jakarta.validation.Valid;
 import org.java.lessons.springilmiofotoalbum.model.Photo;
 import org.java.lessons.springilmiofotoalbum.repository.CategoryRepository;
 import org.java.lessons.springilmiofotoalbum.repository.PhotoRepository;
+import org.java.lessons.springilmiofotoalbum.security.DatabaseUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -13,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,30 +29,44 @@ public class PhotoController {
     private PhotoRepository photoRepository;
 
     @Autowired
+    private DatabaseUserDetailsService databaseUserDetailsService;
+
+    @Autowired
     private CategoryRepository categoryRepository;
 
     //controller per mostrare lista foto visibili e per filtrare la ricerca
     @GetMapping
-    public String list(@RequestParam(name = "keyword", required = false) String searchString, Model model) {
+    public String list(@RequestParam(name = "keyword", required = false) String searchString, Authentication authentication, Model model) {
         List<Photo> listPhotos;
-        List<Photo> listPhotosVisible = photoRepository.findAll();
+        List<Photo> listPhotosVisible = new ArrayList<>();
+        UserDetails user = databaseUserDetailsService.loadUserByUsername(authentication.getName());
+
+        //per la ricerca da parte dell' utente
         if (searchString == null || searchString.isBlank()) {
             listPhotos = photoRepository.findAll();
         } else {
             listPhotos = photoRepository.findByTitleContainingIgnoreCaseOrDescriptionContainingIgnoreCase(searchString, searchString);
         }
 
+        //in caso di lista vuota
         if (listPhotos.isEmpty()) {
             model.addAttribute("message", "No photos available, sorry");
         }
+
+        //creo lista con solo foto visibili
         for (Photo photo : listPhotos) {
-            if (!photo.getVisible()) {
-                listPhotosVisible.remove(photo);
+            if (photo.getVisible()) {
+                listPhotosVisible.add(photo);
             }
         }
 
-        model.addAttribute("listPhotos", listPhotos);
-        model.addAttribute("listPhotosVisible", listPhotosVisible);
+        //per distinguere tra lista foto accessibile all' admin e quella solo all' utente
+        if (user.getAuthorities().contains(new SimpleGrantedAuthority("USER"))) {
+            model.addAttribute("listPhotos", listPhotosVisible);
+        } else {
+            model.addAttribute("listPhotos", listPhotos);
+        }
+
         model.addAttribute("searchInput", searchString == null ? "" : searchString);
         return "index";
     }
