@@ -7,7 +7,7 @@
 <body>
 <th:block th:replace="fragments :: navbar"></th:block>
 
-<div class="container mt-5" th:object="${photo}">
+<div class="container my-5" th:object="${photo}">
     <section>
         <h1 th:text="*{title}"></h1>
         <img class="my-3" style="width: 400px;" th:src="*{url}">
