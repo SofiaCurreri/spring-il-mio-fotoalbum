@@ -4,6 +4,8 @@ import jakarta.validation.Valid;
 import org.java.lessons.springilmiofotoalbum.model.Photo;
 import org.java.lessons.springilmiofotoalbum.repository.PhotoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -62,4 +64,17 @@ public class PhotoRestController {
     }
 
 
+    //servizio per paginazione
+    @GetMapping("/page")
+    public Page<Photo> page(
+//            @RequestParam(defaultValue = "8") Integer size,
+//            @RequestParam(defaultValue = "0") Integer page,
+            Pageable pageable
+    ) {
+        //creo un pageable a partire da size e page
+//        Pageable pageable = PageRequest.of(page, size);
+
+        //restituisco Page estratta da db con metodo findAll
+        return photoRepository.findAll(pageable);
+    }
 }
