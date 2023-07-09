@@ -1,8 +1,10 @@
 package org.java.lessons.springilmiofotoalbum.api;
 
 import jakarta.validation.Valid;
+import org.java.lessons.springilmiofotoalbum.exception.PhotoNotFoundException;
 import org.java.lessons.springilmiofotoalbum.model.Photo;
 import org.java.lessons.springilmiofotoalbum.repository.PhotoRepository;
+import org.java.lessons.springilmiofotoalbum.service.PhotoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -22,19 +24,27 @@ public class PhotoRestController {
     @Autowired
     PhotoRepository photoRepository;
 
+    @Autowired
+    PhotoService photoService;
+
     //servizio per lista foto
     @GetMapping
-    public List<Photo> index() {
-        return photoRepository.findAll();
+    public List<Photo> index(@RequestParam Optional<String> searchInput) {
+        return photoService.getAll(searchInput);
     }
 
     //servizio per dettaglio foto
     @GetMapping("/{id}")
     public Photo get(@PathVariable Integer id) {
-        Optional<Photo> photo = photoRepository.findById(id);
-        if (photo.isPresent()) {
-            return photo.get();
-        } else {
+//        Optional<Photo> photo = photoRepository.findById(id);
+//        if (photo.isPresent()) {
+//            return photo.get();
+//        } else {
+//            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+//        }
+        try {
+            return photoService.getById(id);
+        } catch (PhotoNotFoundException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
     }
