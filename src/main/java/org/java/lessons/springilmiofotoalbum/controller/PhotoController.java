@@ -137,15 +137,14 @@ public class PhotoController {
 
     @PostMapping("/edit/{id}")
     public String update(@PathVariable Integer id,
-                         @Valid @ModelAttribute("photo") Photo formPhoto,
+                         @Valid @ModelAttribute("photo") PhotoForm formPhoto,
                          BindingResult bindingResult,
                          Model model) {
         Optional<Photo> result = photoRepository.findById(id);
         if (result.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Photo with id = " + id + " not found :(");
         }
-        Photo photoToEdit = result.get(); //vecchia versione foto
-        //nuova versione foto = formPhoto
+
 
         //valido formPhoto
         if (bindingResult.hasErrors()) {
@@ -153,8 +152,7 @@ public class PhotoController {
             return "editCreate";
         }
 
-        formPhoto.setId(photoToEdit.getId());
-        photoRepository.save(formPhoto);
+        photoService.update(id, formPhoto);
         return "redirect:/photos";
     }
 

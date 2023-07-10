@@ -5,8 +5,10 @@ import org.java.lessons.springilmiofotoalbum.exception.PhotoNotFoundException;
 import org.java.lessons.springilmiofotoalbum.model.Photo;
 import org.java.lessons.springilmiofotoalbum.repository.PhotoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -50,7 +52,7 @@ public class PhotoService {
         photoToPersist.setDescription(photo.getDescription());
         photoToPersist.setVisible(photo.getVisible());
         photoToPersist.setCategories(photo.getCategories());
-        photoToPersist.setImage(photo.getImage());
+        photoToPersist.setImageFile(photo.getImageFile());
 
         return photoRepository.save(photoToPersist);
     }
@@ -81,6 +83,20 @@ public class PhotoService {
         return photoRepository.save(photo);
     }
 
+    public Photo update(Integer id, PhotoForm photoForm) throws PhotoNotFoundException {
+        Photo photo = mapPhotoFormToPhoto(photoForm);
+
+        if (photoForm.getImageFile() == null || photoForm.getImageFile().isEmpty()) {
+            Optional<Photo> photoWithImage = photoRepository.findById(id);
+            if (photoWithImage.isEmpty()) {
+                throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Photo with id = " + id + " not found :(");
+            }
+            photo.setImageFile(photoWithImage.get().getImageFile());
+        }
+        photoForm.setId(id);
+        return photoRepository.save(photo);
+    }
+
     //metodo per convertire tipo PhotoForm in tipo Photo
     private Photo mapPhotoFormToPhoto(PhotoForm photoForm) {
         //creo photo nuova vuota
@@ -93,7 +109,7 @@ public class PhotoService {
         photo.setCategories(photoForm.getCategories());
 
         //converto campo imageFile
-        photo.setImage(multipartFileToByteArray(photoForm.getImageFile()));
+        photo.setImageFile(multipartFileToByteArray(photoForm.getImageFile()));
 
         return photo;
     }

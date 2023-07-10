@@ -2,6 +2,7 @@ package org.java.lessons.springilmiofotoalbum.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -27,8 +28,8 @@ public class Photo {
     private LocalDateTime createdAt;
     @Lob
     @Column(length = 16777215, nullable = false) //sono circa 16 megabyte
-    @NotBlank(message = "Image field must not be blank")
-    private byte[] image;
+    @NotNull(message = "Image field must not be blank")
+    private byte[] imageFile;
 
     public Integer getId() {
         return id;
@@ -78,11 +79,11 @@ public class Photo {
         this.categories = categories;
     }
 
-    public byte[] getImage() {
-        return image;
+    public byte[] getImageFile() {
+        return imageFile;
     }
 
-    public void setImage(byte[] image) {
-        this.image = image;
+    public void setImageFile(byte[] imageFile) {
+        this.imageFile = imageFile;
     }
 }

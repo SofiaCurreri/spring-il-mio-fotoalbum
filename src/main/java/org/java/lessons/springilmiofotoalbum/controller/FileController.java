@@ -25,7 +25,7 @@ public class FileController {
         try {
             Photo photo = photoService.getById(photoId);
             MediaType mediaType = MediaType.IMAGE_JPEG;
-            return ResponseEntity.ok().contentType(mediaType).body(photo.getImage());
+            return ResponseEntity.ok().contentType(mediaType).body(photo.getImageFile());
         } catch (PhotoNotFoundException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
