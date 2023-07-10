@@ -63,6 +63,13 @@ public class PhotoService {
         return create(photo);
     }
 
+    //metodo per creare un PhotoForm a partire da id di una Photo salvata su db
+    public PhotoForm getPhotoFormById(Integer id) throws PhotoNotFoundException {
+        Photo photo = getById(id);
+        return mapPhotoToPhotoForm(photo);
+    }
+
+
     //metodo per eliminare singola foto
     public void delete(Integer id) {
         photoRepository.deleteById(id);
@@ -89,6 +96,20 @@ public class PhotoService {
         photo.setImage(multipartFileToByteArray(photoForm.getImageFile()));
 
         return photo;
+    }
+
+    //metodo per convertire tipo Photo in tipo PhotoForm
+    private PhotoForm mapPhotoToPhotoForm(Photo photo) {
+        //creo photo nuova vuota
+        PhotoForm photoForm = new PhotoForm();
+
+        photoForm.setId(photo.getId());
+        photoForm.setTitle(photo.getTitle());
+        photoForm.setDescription(photo.getDescription());
+        photoForm.setVisible(photo.getVisible());
+        photoForm.setCategories(photo.getCategories());
+
+        return photoForm;
     }
 
     private byte[] multipartFileToByteArray(MultipartFile mpf) {

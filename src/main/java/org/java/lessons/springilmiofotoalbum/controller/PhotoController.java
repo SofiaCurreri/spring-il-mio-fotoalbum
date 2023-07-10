@@ -2,6 +2,7 @@ package org.java.lessons.springilmiofotoalbum.controller;
 
 import jakarta.validation.Valid;
 import org.java.lessons.springilmiofotoalbum.dto.PhotoForm;
+import org.java.lessons.springilmiofotoalbum.exception.PhotoNotFoundException;
 import org.java.lessons.springilmiofotoalbum.model.Photo;
 import org.java.lessons.springilmiofotoalbum.repository.CategoryRepository;
 import org.java.lessons.springilmiofotoalbum.repository.PhotoRepository;
@@ -123,14 +124,15 @@ public class PhotoController {
     //controller per fare l' edit dell' immagine
     @GetMapping("/edit/{id}")
     public String edit(@PathVariable Integer id, Model model) {
-        //verificare se esiste foto con quell' id
-        Optional<Photo> result = photoRepository.findById(id);
-        if (result.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Photo with id = " + id + " not found :(");
+        try {
+            PhotoForm photoForm = photoService.getPhotoFormById(id);
+            model.addAttribute("photo", photoForm);
+            model.addAttribute("categoryList", categoryRepository.findAll());
+            return "editCreate";
+        } catch (PhotoNotFoundException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
-        model.addAttribute("photo", result.get());
-        model.addAttribute("categoryList", categoryRepository.findAll());
-        return "editCreate";
+
     }
 
     @PostMapping("/edit/{id}")
