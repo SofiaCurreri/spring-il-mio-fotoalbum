@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -52,11 +51,12 @@ public class PhotoRestController {
     //servizio per creare nuova foto; che arriva come Json nel RequestBody
     @PostMapping
     //solo POST e PUT hanno Body
-    public Photo create(@Valid @RequestBody Photo photo, BindingResult bindingResult) {
+    public Photo create(@Valid @RequestBody Photo photo) {
 //        if (bindingResult.hasErrors()) {
 //            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, bindingResult.toString());
 //        }
-        return photoRepository.save(photo);
+//        return photoRepository.save(photo);
+        return photoService.create(photo);
     }
 
     //servizio per cancellare foto

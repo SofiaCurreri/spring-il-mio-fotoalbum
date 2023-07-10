@@ -6,6 +6,7 @@ import org.java.lessons.springilmiofotoalbum.repository.PhotoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -33,5 +34,20 @@ public class PhotoService {
             //siamo in uno strato di Service quindi non è opportuno tirare una ResponseStatusException
             throw new PhotoNotFoundException("Photo with id = " + id + " not found");
         }
+    }
+
+    //metodo che salva nuova foto a partire da quella passata come param
+    public Photo create(Photo photo) {
+        //genero foto da salvare
+        Photo photoToPersist = new Photo();
+
+        photoToPersist.setCreatedAt(LocalDateTime.now());
+        photoToPersist.setTitle(photo.getTitle());
+        photoToPersist.setDescription(photo.getDescription());
+        photoToPersist.setUrl(photo.getUrl());
+        photoToPersist.setVisible(photo.getVisible());
+        photoToPersist.setCategories(photo.getCategories());
+
+        return photoRepository.save(photoToPersist);
     }
 }
