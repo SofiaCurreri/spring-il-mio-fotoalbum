@@ -1,10 +1,12 @@
 package org.java.lessons.springilmiofotoalbum.controller;
 
 import jakarta.validation.Valid;
+import org.java.lessons.springilmiofotoalbum.dto.PhotoForm;
 import org.java.lessons.springilmiofotoalbum.model.Photo;
 import org.java.lessons.springilmiofotoalbum.repository.CategoryRepository;
 import org.java.lessons.springilmiofotoalbum.repository.PhotoRepository;
 import org.java.lessons.springilmiofotoalbum.security.DatabaseUserDetailsService;
+import org.java.lessons.springilmiofotoalbum.service.PhotoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
@@ -33,6 +35,9 @@ public class PhotoController {
 
     @Autowired
     private CategoryRepository categoryRepository;
+
+    @Autowired
+    private PhotoService photoService;
 
     //controller per mostrare lista foto visibili e per filtrare la ricerca
     @GetMapping
@@ -89,14 +94,19 @@ public class PhotoController {
     //controller che restituisce pagina con form di creazione
     @GetMapping("/create")
     public String create(Model model) {
-        model.addAttribute("photo", new Photo());
+        model.addAttribute("photo", new PhotoForm());
         model.addAttribute("categoryList", categoryRepository.findAll());
         return "editCreate"; //template unico per create e edit
     }
 
     @PostMapping("/create")
     //ci aspettiamo di ricevere un obj di tipo Photo, i cui attributi vengono riempiti dai dati inseriti nel form
-    public String store(@Valid @ModelAttribute("photo") Photo formPhoto, BindingResult bindingResult, Model model) {
+    public String store(@Valid @ModelAttribute("photo") PhotoForm photoForm, BindingResult bindingResult, Model model) {
+        if (!bindingResult.hasErrors()) {
+            //chiedo a PhotoService di salvare foto su db
+            photoService.create(photoForm);
+        }
+
         if (bindingResult.hasErrors()) {
             //ci sono stati errori
             model.addAttribute("categoryList", categoryRepository.findAll());
@@ -104,7 +114,7 @@ public class PhotoController {
         }
 
         //save fa create sql se obj con quella PK non esiste, altrimenti fa update
-        photoRepository.save(formPhoto);
+//        photoRepository.save(formPhoto);
 
         //se tutto va bene rimando alla lista delle foto
         return "redirect:/photos";

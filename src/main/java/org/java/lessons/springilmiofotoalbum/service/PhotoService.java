@@ -1,11 +1,14 @@
 package org.java.lessons.springilmiofotoalbum.service;
 
+import org.java.lessons.springilmiofotoalbum.dto.PhotoForm;
 import org.java.lessons.springilmiofotoalbum.exception.PhotoNotFoundException;
 import org.java.lessons.springilmiofotoalbum.model.Photo;
 import org.java.lessons.springilmiofotoalbum.repository.PhotoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -51,6 +54,11 @@ public class PhotoService {
         return photoRepository.save(photoToPersist);
     }
 
+    //metodo che crea Photo a partire da un PhotoForm
+    public Photo create(PhotoForm photoForm) {
+        return null;
+    }
+
     //metodo per eliminare singola foto
     public void delete(Integer id) {
         photoRepository.deleteById(id);
@@ -60,5 +68,34 @@ public class PhotoService {
     public Photo update(Integer id, Photo photo) {
         photo.setId(id);
         return photoRepository.save(photo);
+    }
+
+    //metodo per convertire tipo PhotoForm in tipo Photo
+    private Photo mapPhotoFormToPhoto(PhotoForm photoForm) {
+        //creo photo nuova vuota
+        Photo photo = new Photo();
+
+        photo.setId(photoForm.getId());
+        photo.setTitle(photoForm.getTitle());
+        photo.setDescription(photoForm.getDescription());
+        photo.setVisible(photoForm.getVisible());
+        photo.setCategories(photoForm.getCategories());
+
+        //converto campo imageFile
+        photo.setImage(multipartFileToByteArray(photoForm.getImageFile()));
+
+        return photo;
+    }
+
+    private byte[] multipartFileToByteArray(MultipartFile mpf) {
+        byte[] bytes = null;
+        if (mpf != null && !mpf.isEmpty()) {
+            try {
+                bytes = mpf.getBytes();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return bytes;
     }
 }
