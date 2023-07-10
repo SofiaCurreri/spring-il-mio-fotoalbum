@@ -12,6 +12,7 @@
 
     <form
             class="row mt-5"
+            enctype="multipart/form-data"
             id="photo-form"
             method="post"
             th:action="@{${formAction}}"
@@ -39,13 +40,24 @@
         </div>
 
         <div class="col-12 my-2">
-            <label class="form-label" for="url-photo">Url Image*</label>
-            <input class="form-control" id="url-photo" th:errorClass="is-invalid" th:field="*{url}" type="text">
-            <div class="form-text">Must not be empty</div>
-            <div class="invalid-feedback" th:if="${#fields.hasErrors('url')}">
-                <ul>
-                    <li th:each="err : ${#fields.errors('url')}" th:text="${err}"></li>
-                </ul>
+            <!--            <label class="form-label" for="url-photo">Url Image*</label>-->
+            <!--            <input class="form-control" id="url-photo" th:errorClass="is-invalid" th:field="*{url}" type="text">-->
+            <!--            <div class="form-text">Must not be empty</div>-->
+            <!--            <div class="invalid-feedback" th:if="${#fields.hasErrors('url')}">-->
+            <!--                <ul>-->
+            <!--                    <li th:each="err : ${#fields.errors('url')}" th:text="${err}"></li>-->
+            <!--                </ul>-->
+            <!--            </div>-->
+            <div class="mb-3">
+                <label class="form-label" for="imageFile">File Image*</label>
+                <input class="form-control" id="imageFile" th:errorClass="is-invalid" th:field="*{imageFile}"
+                       type="file">
+                <div class="form-text">Must not be empty</div>
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('imageFile')}">
+                    <ul>
+                        <li th:each="err : ${#fields.errors('imageFile')}" th:text="${err}"></li>
+                    </ul>
+                </div>
             </div>
         </div>
 
