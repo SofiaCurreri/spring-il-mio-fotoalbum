@@ -13,8 +13,6 @@ public class PhotoForm {
     @NotBlank(message = "Title must not be blank")
     private String title;
     private String description;
-//    @NotBlank(message = "Url must not be blank")
-//    private String url;
 
     private Boolean visible;
 

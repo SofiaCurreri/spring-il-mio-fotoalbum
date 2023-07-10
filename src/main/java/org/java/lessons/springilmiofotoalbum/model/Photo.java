@@ -18,9 +18,7 @@ public class Photo {
     @Column(nullable = false)
     private String title;
     private String description;
-    //    @NotBlank(message = "Url must not be blank")
-//    @Column(nullable = false)
-//    private String url;
+    ;
     @Column(nullable = false, columnDefinition = "BOOLEAN DEFAULT true")
     private Boolean visible;
     @ManyToMany
@@ -28,7 +26,8 @@ public class Photo {
     private List<Category> categories = new ArrayList<>();
     private LocalDateTime createdAt;
     @Lob
-    @Column(length = 16777215) //sono circa 16 megabyte
+    @Column(length = 16777215, nullable = false) //sono circa 16 megabyte
+    @NotBlank(message = "Image field must not be blank")
     private byte[] image;
 
     public Integer getId() {
@@ -54,14 +53,6 @@ public class Photo {
     public void setDescription(String description) {
         this.description = description;
     }
-
-//    public String getUrl() {
-//        return url;
-//    }
-//
-//    public void setUrl(String url) {
-//        this.url = url;
-//    }
 
     public Boolean getVisible() {
         return visible;

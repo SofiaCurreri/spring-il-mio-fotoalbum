@@ -10,7 +10,7 @@
 <div class="container my-5" th:object="${photo}">
     <section>
         <h1 th:text="*{title}"></h1>
-        <img class="my-3" style="width: 400px;" th:src="*{url}">
+        <img class="my-3" style="width: 400px;" th:src="@{|/files/image/*{id}|}">
         <dt> Description</dt>
         <dd th:text="*{description}"></dd>
 
