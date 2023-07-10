@@ -27,6 +27,9 @@ public class Photo {
     @JoinTable(name = "photo_category", joinColumns = @JoinColumn(name = "photo_id"), inverseJoinColumns = @JoinColumn(name = "category_id"))
     private List<Category> categories = new ArrayList<>();
     private LocalDateTime createdAt;
+    @Lob
+    @Column(length = 16777215) //sono circa 16 megabyte
+    private byte[] image;
 
     public Integer getId() {
         return id;
@@ -82,5 +85,13 @@ public class Photo {
 
     public void setCategories(List<Category> categories) {
         this.categories = categories;
+    }
+
+    public byte[] getImage() {
+        return image;
+    }
+
+    public void setImage(byte[] image) {
+        this.image = image;
     }
 }
