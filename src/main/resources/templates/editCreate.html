@@ -52,7 +52,7 @@
                 </div>
             </div>
 
-            <div>
+            <div th:if="${isEdit}">
                 <img alt="current photo" style="width:100px;" th:src="@{|/files/image/*{id}|}">
             </div>
         </div>
