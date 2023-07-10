@@ -145,7 +145,6 @@ public class PhotoController {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Photo with id = " + id + " not found :(");
         }
 
-
         //valido formPhoto
         if (bindingResult.hasErrors()) {
             model.addAttribute("categoryList", categoryRepository.findAll());
