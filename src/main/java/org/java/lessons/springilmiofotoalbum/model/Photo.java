@@ -18,9 +18,9 @@ public class Photo {
     @Column(nullable = false)
     private String title;
     private String description;
-    @NotBlank(message = "Url must not be blank")
-    @Column(nullable = false)
-    private String url;
+    //    @NotBlank(message = "Url must not be blank")
+//    @Column(nullable = false)
+//    private String url;
     @Column(nullable = false, columnDefinition = "BOOLEAN DEFAULT true")
     private Boolean visible;
     @ManyToMany
@@ -55,13 +55,13 @@ public class Photo {
         this.description = description;
     }
 
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
-    }
+//    public String getUrl() {
+//        return url;
+//    }
+//
+//    public void setUrl(String url) {
+//        this.url = url;
+//    }
 
     public Boolean getVisible() {
         return visible;

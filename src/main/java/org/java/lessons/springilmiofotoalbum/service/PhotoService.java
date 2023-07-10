@@ -45,18 +45,22 @@ public class PhotoService {
         Photo photoToPersist = new Photo();
 
         photoToPersist.setCreatedAt(LocalDateTime.now());
+
         photoToPersist.setTitle(photo.getTitle());
         photoToPersist.setDescription(photo.getDescription());
-        photoToPersist.setUrl(photo.getUrl());
         photoToPersist.setVisible(photo.getVisible());
         photoToPersist.setCategories(photo.getCategories());
+        photoToPersist.setImage(photo.getImage());
 
         return photoRepository.save(photoToPersist);
     }
 
     //metodo che crea Photo a partire da un PhotoForm
     public Photo create(PhotoForm photoForm) {
-        return null;
+        //converto PhotoForm in Photo
+        Photo photo = mapPhotoFormToPhoto(photoForm);
+        //salvo Photo su db
+        return create(photo);
     }
 
     //metodo per eliminare singola foto
