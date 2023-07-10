@@ -62,15 +62,17 @@ public class PhotoRestController {
     //servizio per cancellare foto
     @DeleteMapping("/{id}")
     public void delete(@PathVariable Integer id) {
-        photoRepository.deleteById(id);
+//        photoRepository.deleteById(id);
+        photoService.delete(id);
     }
 
     //nella put devo passare id della risorsa da modificare e poi devo dare body di una post
     // nel quale metto tutti dati che andranno a sostituire i dati della risorsa con l' id passato nel path
     @PutMapping("/{id}")
     public Photo update(@PathVariable Integer id, @Valid @RequestBody Photo photo) {
-        photo.setId(id);
-        return photoRepository.save(photo);
+//        photo.setId(id);
+//        return photoRepository.save(photo);
+        return photoService.update(id, photo);
     }
 
 

@@ -50,4 +50,15 @@ public class PhotoService {
 
         return photoRepository.save(photoToPersist);
     }
+
+    //metodo per eliminare singola foto
+    public void delete(Integer id) {
+        photoRepository.deleteById(id);
+    }
+
+    //metodo per salvare modifiche foto
+    public Photo update(Integer id, Photo photo) {
+        photo.setId(id);
+        return photoRepository.save(photo);
+    }
 }
