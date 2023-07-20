@@ -34,6 +34,10 @@
             <button class="btn btn-outline-light" sec:authorize="hasAuthority('ADMIN')">
                 <a class="nav-link active" th:href="@{/categories}">Categories</a>
             </button>
+
+            <button class="btn btn-outline-light">
+                <a class="nav-link active" th:href="@{/logout}">Log out</a>
+            </button>
         </div>
 
     </div>
