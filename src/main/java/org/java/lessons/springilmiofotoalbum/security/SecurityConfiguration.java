@@ -8,6 +8,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 public class SecurityConfiguration {
@@ -62,10 +63,17 @@ public class SecurityConfiguration {
                 .requestMatchers(HttpMethod.POST, "/photos/**").hasAuthority("ADMIN")
                 .requestMatchers("/**").permitAll()
                 .and().formLogin()
-                .and().logout();
+                .and().logout()
+                .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+                .logoutSuccessHandler((request, response, authentication) -> {
+                    String targetUrl = "/fotoalbum-frontend/homepage.html";
+                    response.sendRedirect(request.getContextPath() + targetUrl);
+                })
+                .permitAll(); // Consentire a tutti di accedere al logout
 
         //disabilitiamo csrf per invocare api da Postman
         http.csrf().disable();
         return http.build();
     }
+
 }
