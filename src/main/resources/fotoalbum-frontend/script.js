@@ -35,7 +35,7 @@ const createPhotoList = (data) => {
 
     return list;
   } else {
-    return `<div class="alert alert-info"> Sorry but the list of photos appears to be empty :( </div>`;
+    return `<div class="mt-4 alert alert-info"> Sorry but the list of photos appears to be empty :( </div>`;
   }
 };
 
@@ -46,6 +46,30 @@ const loadData = async () => {
   //appendo content a DOM
   contentDOM.innerHTML = createPhotoList(data);
 };
+
+
+// Funzione per filtrare le immagini in base al titolo
+const filterPhotos = (data, searchTerm) => {
+  return data.filter((element) => {
+    return element.title.toLowerCase().includes(searchTerm.toLowerCase());
+  });
+};
+
+// Funzione per gestire l'evento di ricerca
+const handleSearch = async () => {
+  const searchTerm = document.getElementById("keyword").value;
+  const data = await getPhotos();
+
+  // Filtra le immagini in base al titolo inserito dall'utente
+  const filteredData = filterPhotos(data, searchTerm);
+
+  // Aggiorna la visualizzazione con le immagini filtrate
+  contentDOM.innerHTML = createPhotoList(filteredData);
+};
+
+// Aggiungi il gestore di eventi all'input di ricerca
+document.getElementById("keyword").addEventListener("input", handleSearch);
+
 
 //CODICE GLOBALE
 loadData();
