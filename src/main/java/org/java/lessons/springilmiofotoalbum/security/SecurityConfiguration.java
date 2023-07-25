@@ -64,6 +64,8 @@ public class SecurityConfiguration {
                 .requestMatchers("/**").permitAll()
                 .and().formLogin()
                 .and().logout()
+
+                //serve per reindirizzare l' utente a cio che c'è dentro fotoalbum-frontend, ovvero homepage.html nel caso di log out
                 .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
                 .logoutSuccessHandler((request, response, authentication) -> {
                     String targetUrl = "/fotoalbum-frontend/homepage.html";

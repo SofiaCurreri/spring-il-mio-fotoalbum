@@ -6,6 +6,8 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 public class WebMvcConfig implements WebMvcConfigurer {
+
+    //serve per reindirizzare l' utente a cio che c'è dentro fotoalbum-frontend, ovvero homepage.html nel caso di log out
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/fotoalbum-frontend/**")
