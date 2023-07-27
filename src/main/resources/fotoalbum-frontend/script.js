@@ -16,6 +16,34 @@ const getPhotos = async () => {
   }
 };
 
+const submitForm = async () => {
+    event.preventDefault(); //per evitare comportamento predefinito di invio del form
+
+    const messageInput = document.getElementById("message");
+    const emailInput = document.getElementById("email");
+
+    const message = messageInput.value;
+    const email = emailInput.value;
+
+    const messageData = {
+        message,
+        email,
+    };
+
+    try{
+        const response = await axios.post("http://localhost:8080/api/v1/messages", messageData);
+        console.log(response.data);
+        alert("Message sent successfully");
+    } catch(error) {
+        console.log(error);
+        alert("Failed to send message. Please try again")
+    }
+
+    //resetto campi dopo l' invio dei dati
+    messageInput.value = "";
+    emailInput.value = "";
+};
+
 //DOM MANIPULATION
 //funzione che prende in ingresso i dati e ne fa una lista
 const createPhotoList = (data) => {
