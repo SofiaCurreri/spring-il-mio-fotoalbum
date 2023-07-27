@@ -16,7 +16,7 @@ const getPhotos = async () => {
   }
 };
 
-const submitForm = async () => {
+const submitForm = async (event) => {
     event.preventDefault(); //per evitare comportamento predefinito di invio del form
 
     const messageInput = document.getElementById("message");
@@ -30,19 +30,23 @@ const submitForm = async () => {
         email,
     };
 
-    try{
-        const response = await axios.post("http://localhost:8080/api/v1/messages", messageData);
-        console.log(response.data);
-        alert("Message sent successfully");
-    } catch(error) {
-        console.log(error);
-        alert("Failed to send message. Please try again")
+    try {
+       const response = await axios.post(
+       "http://localhost:8080/api/v1/messages",
+       messageData
+      );
+      console.log(response.data);
+      alert("Message sent successfully");
+    } catch (error) {
+      console.log(error);
+      alert("Failed to send message. Please try again");
     }
 
     //resetto campi dopo l' invio dei dati
     messageInput.value = "";
     emailInput.value = "";
 };
+
 
 
 //DOM MANIPULATION
@@ -76,7 +80,6 @@ const loadData = async () => {
   contentDOM.innerHTML = createPhotoList(data);
 };
 
-
 // Funzione per filtrare le immagini in base al titolo
 const filterPhotos = (data, searchTerm) => {
   return data.filter((element) => {
@@ -98,7 +101,6 @@ const handleSearch = async () => {
 
 // Aggiungi il gestore di eventi all'input di ricerca
 document.getElementById("keyword").addEventListener("input", handleSearch);
-
 
 //CODICE GLOBALE
 loadData();
