@@ -49,6 +49,7 @@ const submitForm = async (event) => {
 
 
 
+
 //DOM MANIPULATION
 //funzione che prende in ingresso i dati e ne fa una lista
 const createPhotoList = (data) => {
