@@ -1,6 +1,7 @@
 //COSTANTI
 const PHOTOS_API_URL = "http://localhost:8080/api/v1/photos";
 const contentDOM = document.getElementById("content");
+const alertMessage = document.getElementById("alert");
 console.log(contentDOM);
 
 //API
@@ -36,17 +37,20 @@ const submitForm = async (event) => {
        messageData
       );
       console.log(response.data);
-      alert("Message sent successfully");
+      alertMessage.innerHTML = `<div class="alert alert-success col-6" role="alert">
+                Message sent successfully
+              </div>`;
     } catch (error) {
       console.log(error);
-      alert("Failed to send message. Please try again");
+      alertMessage.innerHTML = `<div class="alert alert-danger col-6" role="alert">
+                      Failed to send message. Please try again
+                    </div>`;
     }
 
     //resetto campi dopo l' invio dei dati
     messageInput.value = "";
     emailInput.value = "";
 };
-
 
 
 

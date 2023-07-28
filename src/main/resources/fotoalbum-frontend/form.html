@@ -41,13 +41,17 @@
 
 <div class="container">
     <!--Title-->
-    <h2 class="mt-5 text-center">Fill the form if you need any kind of info <i class="fa-regular fa-face-smile"></i>
+    <h2 class="my-4 text-center">Fill the form if you need any kind of info <i
+            class="fa-regular fa-face-smile"></i>
     </h2>
 
+    <!--Alert Message-->
+    <div class="my-3 d-flex justify-content-center" id="alert"></div>
+
     <!--Form-->
-    <form class="mt-5 d-flex flex-column align-items-center" method="post"
+    <form class="d-flex flex-column align-items-center" method="post"
           onsubmit="submitForm(event)">
-        <div class="col-6 my-3">
+        <div class="col-6 mb-3">
             <label class="form-label" for="message">Type your message here*</label>
             <textarea class="form-control" id="message" required rows="10"></textarea>
             <div class="form-text">
