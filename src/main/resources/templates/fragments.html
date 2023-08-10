@@ -27,11 +27,11 @@
         <h1>Photo Album</h1>
 
         <div>
-            <button class="btn btn-outline-light me-2 ">
+            <button class="btn btn-outline-light">
                 <a aria-current="page" class="nav-link active" th:href="@{/photos}">Home</a>
             </button>
 
-            <button class="btn btn-outline-light" sec:authorize="hasAuthority('ADMIN')">
+            <button class="btn btn-outline-light mx-2" sec:authorize="hasAuthority('ADMIN')">
                 <a class="nav-link active" th:href="@{/categories}">Categories</a>
             </button>
 
