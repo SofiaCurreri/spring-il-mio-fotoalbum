@@ -19,7 +19,6 @@ public class Photo {
     @Column(nullable = false)
     private String title;
     private String description;
-    ;
     @Column(nullable = false, columnDefinition = "BOOLEAN DEFAULT true")
     private Boolean visible;
     @ManyToMany
